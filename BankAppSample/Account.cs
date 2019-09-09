@@ -104,7 +104,7 @@ namespace BankAppSample
             }
                 return 0;
         }
-        public void DeleteAccount(long Accountnumber)
+        public int DeleteAccount(long Accountnumber)
         {
             using (var DeleteContext = new BankContext())
             {
@@ -112,9 +112,10 @@ namespace BankAppSample
                 if(account != null)
                 {
                     DeleteContext.UserRegistrations.Remove(account);
+                    DeleteContext.SaveChanges();
                 }
             }
-                //return 0;
+                return 0;
         }
     }
     public class AccountDetails
