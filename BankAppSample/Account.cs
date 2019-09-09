@@ -59,14 +59,16 @@ namespace BankAppSample
             using(var detailsContext=new BankContext())
             {
                 var Accountdetails = detailsContext.UserRegistrations.Where(x => x.AccountNumber == Accountnumber).FirstOrDefault();
-                IEnumerable<Tuple<long, string>> authors = new[] {Tuple.Create(Accountdetails.AccountNumber,
+                if(Accountdetails!=null)
+                {
+                    IEnumerable<Tuple<long, string>> authors = new[] {Tuple.Create(Accountdetails.AccountNumber,
                                             Accountdetails.FullName)};
 
-                //For Creating Table Format..
-                Console.WriteLine(authors.ToStringTable(
-                  new[] { "Account Number", "AccountHolderName" },
-                  a => a.Item1, a => a.Item2));
-
+                    //For Creating Table Format..
+                    Console.WriteLine(authors.ToStringTable(
+                      new[] { "Account Number", "AccountHolderName" },
+                      a => a.Item1, a => a.Item2));
+                }
             }
             return new AccountDetails();
         }
@@ -75,30 +77,60 @@ namespace BankAppSample
             using(var AccountsContext=new BankContext())
             {
                 var Allaccounts = AccountsContext.UserRegistrations.ToList();
-                foreach(var Accounts in Allaccounts)
+                if (Allaccounts != null)
                 {
-                    IEnumerable<Tuple<int,long,string>> authors = new[] {Tuple.Create(Accounts.RegistrationID,Accounts.AccountNumber,Accounts.FullName)};
+                    foreach (var Accounts in Allaccounts)
+                    {
+                        IEnumerable<Tuple<int, long, string>> authors = new[] { Tuple.Create(Accounts.RegistrationID, Accounts.AccountNumber, Accounts.FullName) };
 
-                    Console.WriteLine(authors.ToStringTable(new[] { "RegistrationID", "AccountNumber", "FullName" },
-                        a=>a.Item1, a => a.Item2, a=>a.Item3));
+                        Console.WriteLine(authors.ToStringTable(new[] { "RegistrationID", "AccountNumber", "FullName" },
+                            a => a.Item1, a => a.Item2, a => a.Item3));
+                    }
                 }
             }
             return new List<AccountDetails>();
         }
-        public int  UpdateAccount(long Accountnumber, string Fullname, string Fathername, string Mothername, string Mobilenumber, string DateofBirth, int age, string Permanentaddress, string Username, string password)
+        public int  UpdateAccount(long Accountnumber)
         {
             using (var AccountContext = new BankContext())
             {
                 var Updateaccount = AccountContext.UserRegistrations.Where(s => s.AccountNumber == Accountnumber).FirstOrDefault();
-                Updateaccount.FullName = Fullname;
-                Updateaccount.FatherName = Fathername;
-                Updateaccount.MotherName = Mothername;
-                Updateaccount.MobileNumber = Mobilenumber;
-                Updateaccount.Dateofbirth = DateofBirth;
-                Updateaccount.Age = age;
-                Updateaccount.PermanentAddress = Permanentaddress;
-                Updateaccount.UserName = Username;
-                Updateaccount.Password = password;
+                if (Updateaccount != null)
+                {
+                    Console.WriteLine("Enter NewUserName");
+                    var NewUserName = Console.ReadLine();
+                    if (NewUserName != Updateaccount.UserName && NewUserName != "")
+                    {
+                        Updateaccount.UserName = NewUserName;
+                    }
+                    else if (NewUserName == "")
+                    {
+                        Updateaccount.UserName = Updateaccount.UserName;
+                    }
+
+                    Console.WriteLine("Enter NewPassword");
+                    var NewPassword = Console.ReadLine();
+                    if (NewPassword != Updateaccount.Password && NewPassword != "")
+                    {
+                        Updateaccount.Password = NewPassword;
+                    }
+                    else if (NewPassword == "")
+                    {
+                        Updateaccount.Password = Updateaccount.Password;
+                    }
+                    Console.WriteLine("Enter NewMobileNumber");
+                    var NewMobileNumber = Console.ReadLine();
+                    if (NewMobileNumber != Updateaccount.MobileNumber && NewMobileNumber != "")
+                    {
+                        Updateaccount.Password = NewMobileNumber;
+                    }
+                    else if (NewMobileNumber == "")
+                    {
+                        Updateaccount.MobileNumber = Updateaccount.MobileNumber;
+                    }
+
+                }
+
                 AccountContext.UserRegistrations.Update(Updateaccount);
                 AccountContext.SaveChanges();
             }
