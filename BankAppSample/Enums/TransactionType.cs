@@ -7,6 +7,6 @@ namespace BankAppSample.Enums
     public enum TransactionType
     {
         Deposit,
-        Withdrawal
+        Withdrawl
     }
 }
