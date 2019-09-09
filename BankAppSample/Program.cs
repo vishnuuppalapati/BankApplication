@@ -8,6 +8,7 @@ namespace BankAppSample
     public class Program
     {
        public static Account account;
+        public static Transaction transaction;
         public static void Main(string[] args)
         {
             //For Creating Account.....
@@ -82,8 +83,9 @@ namespace BankAppSample
 
                     account.Login(Uname, Pwd);
                     Console.WriteLine("SuccessFully LoggedIn To Your Account.\n");
-                    Console.WriteLine("1. Account Details.\n");
-                    Console.WriteLine("2.Logout.\n");
+                    Console.WriteLine("1.Account Details.\n");
+                    Console.WriteLine("2.Transactions\n");
+                    Console.WriteLine("3.Logout.\n");
                     int number2 = int.Parse(Console.ReadLine());
                     switch(number2)
                     {
@@ -93,7 +95,23 @@ namespace BankAppSample
                             long Accountnumber = long.Parse(Console.ReadLine());
                             account.GetAccountDetails(Accountnumber);
                             break;
-                        case 2:    //For Logout.....
+                        case 2:
+                            transaction = new Transaction();
+                            Console.WriteLine("Select  transaction type");
+                            Console.WriteLine("Enter AccountNumber.");
+                            long acountnumber = long.Parse(Console.ReadLine());
+                            Console.WriteLine("Enter Username:");
+                            decimal Deposit = decimal.Parse(Console.ReadLine());
+                            Console.WriteLine("Enter password:");
+                            decimal Withdrawl = decimal.Parse(Console.ReadLine());
+                            Console.WriteLine("Enter Username:");
+                            decimal amount = decimal.Parse(Console.ReadLine());
+                            Console.WriteLine("Enter password:");
+                            decimal charges = decimal.Parse(Console.ReadLine());
+                            //if(Enums.TransactionType==Deposit)
+                            //transaction.CreateTransaction(acountnumber,Enums.TransactionType.Deposit, Enums.TransactionType.Withdrawl, amount, charges);
+                            break;
+                        case 3:    //For Logout.....
                             Console.WriteLine("Successfully Logout..");
                             break;
                     }
