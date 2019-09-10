@@ -10,7 +10,7 @@ namespace BankAppSample
         
         //public enum Accountt { CreateAccount=1 , Login , GetAccountDetails , GetAllAccounts , UpdateAccount , DeleteAccount}
         private const long AccountBaseNumber = 50000000;
-        public  void CreateAccount(string Fullname, string Fathername, string Mothername, string DateofBirth, int age, string Mobilenumber, string Permanentaddress,decimal Balance, string Username, string password)
+        public  void CreateAccount(string fullname, string fathername, string mothername, string dateofbirth, int age, string mobilenumber, string permanentaddress,decimal balance, string username, string password)
         {
             UserRegistration userRegistration = new UserRegistration();
             using (var accountnumber = new BankContext())
@@ -27,15 +27,15 @@ namespace BankAppSample
 
             }
 
-                userRegistration.FullName = Fullname;
-                userRegistration.FatherName = Fathername;
-                userRegistration.MotherName = Mothername;
-                userRegistration.Dateofbirth = DateofBirth;
+                userRegistration.FullName = fullname;
+                userRegistration.FatherName = fathername;
+                userRegistration.MotherName = mothername;
+                userRegistration.Dateofbirth = dateofbirth;
                 userRegistration.Age = age;
-                userRegistration.MobileNumber = Mobilenumber;
-                userRegistration.PermanentAddress = Permanentaddress;
-                userRegistration.Balance = Balance;
-                userRegistration.UserName = Username;
+                userRegistration.MobileNumber = mobilenumber;
+                userRegistration.PermanentAddress = permanentaddress;
+                userRegistration.Balance = balance;
+                userRegistration.UserName = username;
                 userRegistration.Password = password;
                 using (var context = new BankContext())
                 {
@@ -46,19 +46,30 @@ namespace BankAppSample
             //return 0;
         }
 
-        public int Login(string Username,string password)
+        public int Login(string username,string password)
         {
             using(var logincontext=new BankContext())
             {
-                var userlogin = logincontext.UserRegistrations.Where(s => s.UserName == Username && s.Password == password).FirstOrDefault();
+                var userlogin = logincontext.UserRegistrations.Where(s => s.UserName == username && s.Password == password).FirstOrDefault();
+                if(userlogin!=null)
+                {
+                    Utills.IsAuthenticated = true;
+                    return 0;
+                }
+                else
+                {
+                    Utills.IsAuthenticated = false;
+                    return 1;
+                }
+
             }
-            return 0;
+            //return 1;
         }
-        public AccountDetails GetAccountDetails(long Accountnumber )
+        public AccountDetails GetAccountDetails(long accountnumber )
         {
             using(var detailsContext=new BankContext())
             {
-                var Accountdetails = detailsContext.UserRegistrations.Where(x => x.AccountNumber == Accountnumber).FirstOrDefault();
+                var Accountdetails = detailsContext.UserRegistrations.Where(x => x.AccountNumber == accountnumber).FirstOrDefault();
                 if(Accountdetails!=null)
                 {
                     IEnumerable<Tuple<long, string>> authors = new[] {Tuple.Create(Accountdetails.AccountNumber,
@@ -90,41 +101,41 @@ namespace BankAppSample
             }
             return new List<AccountDetails>();
         }
-        public int  UpdateAccount(long Accountnumber)
+        public int  UpdateAccount(long accountnumber)
         {
             using (var AccountContext = new BankContext())
             {
-                var Updateaccount = AccountContext.UserRegistrations.Where(s => s.AccountNumber == Accountnumber).FirstOrDefault();
+                var Updateaccount = AccountContext.UserRegistrations.Where(s => s.AccountNumber == accountnumber).FirstOrDefault();
                 if (Updateaccount != null)
                 {
                     Console.WriteLine("Enter NewUserName");
-                    var NewUserName = Console.ReadLine();
-                    if (NewUserName != Updateaccount.UserName && NewUserName != "")
+                    var newusername = Console.ReadLine();
+                    if (newusername != Updateaccount.UserName && newusername != "")
                     {
-                        Updateaccount.UserName = NewUserName;
+                        Updateaccount.UserName = newusername;
                     }
-                    else if (NewUserName == "")
+                    else if (newusername == "")
                     {
                         Updateaccount.UserName = Updateaccount.UserName;
                     }
 
                     Console.WriteLine("Enter NewPassword");
-                    var NewPassword = Console.ReadLine();
-                    if (NewPassword != Updateaccount.Password && NewPassword != "")
+                    var newpassword = Console.ReadLine();
+                    if (newpassword != Updateaccount.Password && newpassword != "")
                     {
-                        Updateaccount.Password = NewPassword;
+                        Updateaccount.Password = newpassword;
                     }
-                    else if (NewPassword == "")
+                    else if (newpassword == "")
                     {
                         Updateaccount.Password = Updateaccount.Password;
                     }
                     Console.WriteLine("Enter NewMobileNumber");
-                    var NewMobileNumber = Console.ReadLine();
-                    if (NewMobileNumber != Updateaccount.MobileNumber && NewMobileNumber != "")
+                    var newmobilenumber = Console.ReadLine();
+                    if (newmobilenumber != Updateaccount.MobileNumber && newmobilenumber != "")
                     {
-                        Updateaccount.Password = NewMobileNumber;
+                        Updateaccount.Password = newmobilenumber;
                     }
-                    else if (NewMobileNumber == "")
+                    else if (newmobilenumber == "")
                     {
                         Updateaccount.MobileNumber = Updateaccount.MobileNumber;
                     }
@@ -136,11 +147,11 @@ namespace BankAppSample
             }
                 return 0;
         }
-        public int DeleteAccount(long Accountnumber)
+        public int DeleteAccount(long accountnumber)
         {
             using (var DeleteContext = new BankContext())
             {
-                var account = DeleteContext.UserRegistrations.FirstOrDefault(a => a.AccountNumber == Accountnumber);
+                var account = DeleteContext.UserRegistrations.FirstOrDefault(a => a.AccountNumber == accountnumber);
                 if(account != null)
                 {
                     DeleteContext.UserRegistrations.Remove(account);
@@ -154,6 +165,7 @@ namespace BankAppSample
     {
 
     }
+    
 
     
 } 
