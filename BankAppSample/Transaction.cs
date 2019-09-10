@@ -58,8 +58,9 @@ namespace BankAppSample
                     Context.SaveChanges();
                 }
             }
-           else if(Type==TransactionType.Withdrawl)
-            {  
+           else if(Type==TransactionType.Withdrawl)              
+            {
+                Console.WriteLine("Enter Withdrawl Amount");
                 using (var Context = new BankContext())
                 {
                     var Transaction = Context.UserRegistrations.Where(a => a.AccountNumber == AccountNumber).FirstOrDefault();
