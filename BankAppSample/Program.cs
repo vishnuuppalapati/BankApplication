@@ -109,20 +109,26 @@ namespace BankAppSample
                                 Console.WriteLine("\n Sucessfully Updated..\n");
                                 goto HomePage;
                             case 3:
-                                transaction = new Transaction();
-                                Console.WriteLine("Select  transaction type");
-                                Console.WriteLine("Enter AccountNumber.");
-                                long acountnumber = long.Parse(Console.ReadLine());
-                                Console.WriteLine("Enter Username:");
-                                decimal deposit = decimal.Parse(Console.ReadLine());
-                                Console.WriteLine("Enter password:");
-                                decimal withdrawl = decimal.Parse(Console.ReadLine());
-                                Console.WriteLine("Enter Username:");
-                                decimal amount = decimal.Parse(Console.ReadLine());
-                                Console.WriteLine("Enter password:");
-                                decimal charges = decimal.Parse(Console.ReadLine());
-                                //if(Enums.TransactionType==Deposit)
-                                //transaction.CreateTransaction(acountnumber,Enums.TransactionType.Deposit, Enums.TransactionType.Withdrawl, amount, charges);
+                                //To Create Transaction 
+                            transaction = new Transaction();
+   
+                            Console.WriteLine("Select  transaction type");
+                            Console.WriteLine("Enter AccountNumber.");
+                            long acountnumber = long.Parse(Console.ReadLine());
+                            Console.WriteLine("Enter Transaction type: 0 -Deposit **** 1-Withdrawl ");
+                            int transactionType = int.Parse(Console.ReadLine());
+                            Console.WriteLine("Enter Amount");
+                            int amount = int.Parse(Console.ReadLine());
+                            Console.WriteLine("Enter charges:");
+                            decimal charges = decimal.Parse(Console.ReadLine());
+                            if (TransactionType.Withdrawl ==(TransactionType)transactionType)
+                            {
+                                transaction.CreateTransaction(acountnumber, Enums.TransactionType.Withdrawl, amount, charges);
+                            }
+                            else if(TransactionType.Deposit == (TransactionType)transactionType)
+                            {
+                                transaction.CreateTransaction(acountnumber, Enums.TransactionType.Deposit, amount, charges);
+                            }
                                 break;
                             case 4:    //For Logout.....
                                 Console.WriteLine("Successfully Logout..\n");
