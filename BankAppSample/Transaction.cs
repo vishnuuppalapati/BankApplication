@@ -40,8 +40,7 @@ namespace BankAppSample
         //    return 0;
         //}
         public int CreateTransaction(long AccountNumber, TransactionType Type, decimal Amount, decimal Charges = 10)
-        {
-           
+        {           
             if (Type==TransactionType.Deposit)
             {
                 Console.WriteLine("Enter Deposit Amount");

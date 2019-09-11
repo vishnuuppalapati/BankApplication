@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BankAppSample.Enums;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -87,7 +88,9 @@ namespace BankAppSample
                     HomePage:
                     Console.WriteLine("1.Account Details.\n");
                     Console.WriteLine("2.Transactions\n");
-                    Console.WriteLine("3.Logout.\n");
+                    Console.WriteLine("3.Transaction Details\n");
+                    Console.WriteLine("4.Get All Transactions\n");
+                    Console.WriteLine("5.Logout.\n");
                     int number2 = int.Parse(Console.ReadLine());
                     switch(number2)
                     {
@@ -99,22 +102,44 @@ namespace BankAppSample
                             goto HomePage;
                             
                         case 2:
+                            //To Create Transaction 
                             transaction = new Transaction();
+   
                             Console.WriteLine("Select  transaction type");
                             Console.WriteLine("Enter AccountNumber.");
                             long acountnumber = long.Parse(Console.ReadLine());
-                            Console.WriteLine("Enter Username:");
-                            decimal Deposit = decimal.Parse(Console.ReadLine());
-                            Console.WriteLine("Enter password:");
-                            decimal Withdrawl = decimal.Parse(Console.ReadLine());
-                            Console.WriteLine("Enter Username:");
-                            decimal amount = decimal.Parse(Console.ReadLine());
-                            Console.WriteLine("Enter password:");
+                            Console.WriteLine("Enter Transaction type: 0 -Deposit **** 1-Withdrawl ");
+                            int transactionType = int.Parse(Console.ReadLine());
+                            Console.WriteLine("Enter Amount");
+                            int amount = int.Parse(Console.ReadLine());
+                            Console.WriteLine("Enter charges:");
                             decimal charges = decimal.Parse(Console.ReadLine());
-                            //if(Enums.TransactionType==Deposit)
-                            //transaction.CreateTransaction(acountnumber,Enums.TransactionType.Deposit, Enums.TransactionType.Withdrawl, amount, charges);
+                            if (TransactionType.Withdrawl ==(TransactionType)transactionType)
+                            {
+                                transaction.CreateTransaction(acountnumber, Enums.TransactionType.Withdrawl, amount, charges);
+                            }
+                            else if(TransactionType.Deposit == (TransactionType)transactionType)
+                            {
+                                transaction.CreateTransaction(acountnumber, Enums.TransactionType.Deposit, amount, charges);
+                            }
+                            
                             break;
-                        case 3:    //For Logout.....
+                        case 3:
+                            //To Get Single Transaction Details
+                            Console.WriteLine("Enter TransactionId");
+                            transaction = new Transaction();
+                            int TransactionId = int.Parse(Console.ReadLine());
+                            transaction.GetTransactionDetails(TransactionId);
+                            break;
+                        case 4:
+                            //To Get MUltiple Transactions Details 
+                            Console.WriteLine("Enter AccountNumber");
+                            transaction = new Transaction();
+                            long AccountNumber = int.Parse(Console.ReadLine());
+                            transaction.GetTransactions(AccountNumber);
+                            break;
+                        case 5:  
+                            //For Logout.....
                             Console.WriteLine("Successfully Logout..\n");
                             goto Main;
                            
