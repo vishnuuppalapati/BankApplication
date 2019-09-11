@@ -89,7 +89,9 @@ namespace BankAppSample
                         Console.WriteLine("1.Account Details.\n");
                         Console.WriteLine("2.Update Account.");
                         Console.WriteLine("3.Transactions\n");
-                        Console.WriteLine("4.Logout.\n");
+                        Console.WriteLine("4.Transaction Details\n");
+                        Console.WriteLine("5.Get All Transactions\n");
+                        Console.WriteLine("6.Logout.\n");
                         Console.WriteLine("Enter Your Choice.\n");
                         int number2 = int.Parse(Console.ReadLine());
                         switch (number2)
@@ -129,10 +131,25 @@ namespace BankAppSample
                             {
                                 transaction.CreateTransaction(acountnumber, Enums.TransactionType.Deposit, amount, charges);
                             }
-                                break;
-                            case 4:    //For Logout.....
+                                Console.WriteLine("Transaction Completed Successfully...\n");
+                                goto HomePage;
+                            case 4:
+                            //To Get Single Transaction Details
+                            Console.WriteLine("Enter TransactionId");
+                            transaction = new Transaction();
+                            int TransactionId = int.Parse(Console.ReadLine());
+                            transaction.GetTransactionDetails(TransactionId);
+                            goto HomePage;
+                            case 5:
+                            //To Get MUltiple Transactions Details 
+                            Console.WriteLine("Enter AccountNumber");
+                            transaction = new Transaction();
+                            long AccountNumber = int.Parse(Console.ReadLine());
+                            transaction.GetTransactions(AccountNumber);
+                            goto HomePage;
+                            case 6:    //For Logout.....
                                 Console.WriteLine("Successfully Logout..\n");
-                                goto Main;
+                               goto Main;
                         }                        
                     }
                     else
