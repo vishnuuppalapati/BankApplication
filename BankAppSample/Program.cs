@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BankAppSample.Enums;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -18,10 +19,10 @@ namespace BankAppSample
             Console.WriteLine("_____Home Page_____\n");
             Console.WriteLine("1.Registration Form\n");
             Console.WriteLine("2.Display All Accounts\n");
-            Console.WriteLine("3.Login Page\n");
+            Console.WriteLine("3.Login\n");
             Console.WriteLine("4.Delete Account\n");
             Console.WriteLine("5.Exit\n");
-            Console.WriteLine("Enter Your Choice.\n");
+            Console.WriteLine("Enter Your Choice.");
 
             int number1 = int.Parse(Console.ReadLine());
             
@@ -76,7 +77,7 @@ namespace BankAppSample
                 case 3:                    //For Login Account.....
                     LoginPage:
                     account = new Account();
-                    Console.WriteLine("Enter Username:");
+                    Console.WriteLine("\nEnter Username:");
                     string loginusername = Console.ReadLine();
                     Console.WriteLine("Enter password:");
                     string loginpassword = Console.ReadLine();
@@ -84,15 +85,16 @@ namespace BankAppSample
                     if(res == 0)
                     {
 
-                        Console.WriteLine("SuccessFully LoggedIn To Your Account.\n");
+                    account.Login(loginusername, loginpassword);
+                    Console.WriteLine("\nSuccessFully LoggedIn To Your Account.\n");
                     HomePage:
                         Console.WriteLine("1.Account Details.\n");
-                        Console.WriteLine("2.Update Account.");
+                        Console.WriteLine("2.Update Account.\n");
                         Console.WriteLine("3.Transactions\n");
                         Console.WriteLine("4.Transaction Details\n");
                         Console.WriteLine("5.Get All Transactions\n");
                         Console.WriteLine("6.Logout.\n");
-                        Console.WriteLine("Enter Your Choice.\n");
+                        Console.WriteLine("Enter Your Choice.");
                         int number2 = int.Parse(Console.ReadLine());
                         switch (number2)
                         {
@@ -113,14 +115,14 @@ namespace BankAppSample
                             case 3:
                                 //To Create Transaction 
                             transaction = new Transaction();
-   
-                            Console.WriteLine("Select  transaction type");
-                            Console.WriteLine("Enter AccountNumber.");
+
+
+                                Console.WriteLine("Enter AccountNumber.");
                             long acountnumber = long.Parse(Console.ReadLine());
                             Console.WriteLine("Enter Transaction type: 0 -Deposit **** 1-Withdrawl ");
                             int transactionType = int.Parse(Console.ReadLine());
                             Console.WriteLine("Enter Amount");
-                            int amount = int.Parse(Console.ReadLine());
+                            decimal amount = int.Parse(Console.ReadLine());
                             Console.WriteLine("Enter charges:");
                             decimal charges = decimal.Parse(Console.ReadLine());
                             if (TransactionType.Withdrawl ==(TransactionType)transactionType)

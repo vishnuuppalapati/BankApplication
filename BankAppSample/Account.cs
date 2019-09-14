@@ -53,17 +53,13 @@ namespace BankAppSample
                 var userlogin = logincontext.UserRegistrations.Where(s => s.UserName == username && s.Password == password).FirstOrDefault();
                 if(userlogin!=null)
                 {
-                    Utills.IsAuthenticated = true;
                     return 0;
                 }
                 else
                 {
-                    Utills.IsAuthenticated = false;
                     return 1;
                 }
-
             }
-            //return 1;
         }
         public AccountDetails GetAccountDetails(long accountnumber )
         {
@@ -72,13 +68,13 @@ namespace BankAppSample
                 var Accountdetails = detailsContext.UserRegistrations.Where(x => x.AccountNumber == accountnumber).FirstOrDefault();
                 if(Accountdetails!=null)
                 {
-                    IEnumerable<Tuple<long, string>> authors = new[] {Tuple.Create(Accountdetails.AccountNumber,
-                                            Accountdetails.FullName)};
+                    IEnumerable<Tuple<long, string,decimal>> authors = new[] {Tuple.Create(Accountdetails.AccountNumber,
+                                            Accountdetails.FullName,Accountdetails.Balance)};
 
                     //For Creating Table Format..
                     Console.WriteLine(authors.ToStringTable(
-                      new[] { "Account Number", "AccountHolderName" },
-                      a => a.Item1, a => a.Item2));
+                      new[] { "Account Number", "AccountHolderName","Balance" },
+                      a => a.Item1, a => a.Item2, a=> a.Item3));
                 }
             }
             return new AccountDetails();

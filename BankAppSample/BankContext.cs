@@ -16,7 +16,7 @@ namespace BankAppSample
         public DbSet<UserTransactions> UserTransaction { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"data source=DESKTOP-T5OH97U\SQLEXPRESS;initial catalog=BankDB1;User ID=sa;Password=123456");
+            optionsBuilder.UseSqlServer(@"data source=RUSHIANJI\SQLEXPRESS;initial catalog=BankDB1;User ID=sa;Password=Nanna@143");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
