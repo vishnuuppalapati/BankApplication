@@ -8,71 +8,51 @@ namespace BankAppSample
 {
     public class Transaction
     {
-        ////public int CreateTransaction(string AccountNumber, string AccountHolderName, decimal DepositAmount, decimal WithdrawAmount, DateTime DateOfTransaction)
-        ////{
-        ////    return 0;
-        ////}
-        //public int CreateTransaction(string AccountNumber,TransactionType type, decimal amount, decimal charges, DateTime creationDate)
-        //{
-        //    return 0;
-        //}
-        //public TransactionDetails GetTransactionDetails(string transactionId)
-        //{
-        //    return new TransactionDetails();
-        //}
-        //public List<TransactionDetails> GetAllTransactions()
-        //{
-        //    return new List<TransactionDetails>();
-        //}
-        ////public int UpdateTransactions(string AccountNumber,string transactionId, TransactionType type, decimal amount, decimal charges, DateTime modfieddate)
-        ////{
-        ////    return 0;
-        ////}
-        ////public int DeleteTransaction(string transactionId)
-        ////{
-
-        ////    return 0;
-        ////}
-        /////public int CreateTransaction(string AccountNumber, int TransactionId, decimal DepositAmount, decimal WithdrawAmount,DateTime DateofTransaction)
-        //{
-        //    UserTransactions userTransaction = new UserTransactions();
-
-        //    return 0;
-        //}
+     
+        
         public int CreateTransaction(long AccountNumber, TransactionType Type, decimal Amount, decimal Charges = 10)
         {
-           
+            UserTransactions userTransaction = new UserTransactions();
+            UserRegistration userRegistration = new UserRegistration();
+            //For Deposit.....
             if (Type==TransactionType.Deposit)
             {
-                Console.WriteLine("Enter Deposit Amount");
                 using (var Context = new BankContext())
                 {
-                    var Transaction = Context.UserRegistrations.Where(a => a.AccountNumber == AccountNumber).FirstOrDefault();
-                    UserTransactions userTransaction = new UserTransactions();
-                    userTransaction.AccountNumber = Transaction.AccountNumber;
-                    decimal Depositamount = decimal.Parse(Console.ReadLine());
-                    userTransaction.DepositAmount = Depositamount+Charges;
-                    decimal AvailBalance = Transaction.Balance + Depositamount;
+                    var accountDetails = Context.UserRegistrations.Where(a => a.AccountNumber == AccountNumber).FirstOrDefault();
+                    userTransaction.AccountNumber = accountDetails.AccountNumber;
+                    userTransaction.RegistrationID = accountDetails.RegistrationID;
+                    userTransaction.AccountHolderName = accountDetails.FullName;
+                    userTransaction.AvailBal = accountDetails.Balance;
+                    userTransaction.DepositAmount = Amount+Charges;
+                    decimal AvailBalance = userTransaction.AvailBal + userTransaction.DepositAmount;
                     userTransaction.AvailBal = AvailBalance;
+                    accountDetails.Balance = userTransaction.AvailBal;
                     userTransaction.DateofTransaction = DateTime.Now;
+                    Context.UserTransaction.Add(userTransaction);
                     Context.SaveChanges();
+                    Console.WriteLine("Deposit successfully");
                 }
+                    
             }
-           else if(Type==TransactionType.Withdrawl)
-            {  
+           else if(Type==TransactionType.Withdrawl)              
+            {
+                //For Withdrawl.....
                 using (var Context = new BankContext())
                 {
-                    var Transaction = Context.UserRegistrations.Where(a => a.AccountNumber == AccountNumber).FirstOrDefault();
-                    UserTransactions userTransaction = new UserTransactions();
-                    userTransaction.AccountNumber = Transaction.AccountNumber;
-                    UserRegistration userRegistration = new UserRegistration();
-                    if (userRegistration.Balance >= Amount)
+                    var accountDetails = Context.UserRegistrations.Where(a => a.AccountNumber == AccountNumber).FirstOrDefault();
+                    userTransaction.AccountNumber = accountDetails.AccountNumber;
+                    userTransaction.RegistrationID = accountDetails.RegistrationID;
+                    userTransaction.AccountHolderName = accountDetails.FullName;
+                    if (accountDetails.Balance > 0 && accountDetails.Balance>Amount)
                     {
+                        userTransaction.AvailBal = accountDetails.Balance;
                         userTransaction.WithdrawAmount = Amount + Charges;
-                        decimal AvailBalance = Transaction.Balance - Amount;
+                        decimal AvailBalance = userTransaction.AvailBal - userTransaction.WithdrawAmount;
                         userTransaction.AvailBal = AvailBalance;
-                        userRegistration.Balance = AvailBalance;
+                        accountDetails.Balance = userTransaction.AvailBal;
                         userTransaction.DateofTransaction = DateTime.Now;
+                        Context.UserTransaction.Add(userTransaction);
                         Context.SaveChanges();
                         Console.WriteLine("Withdrawn successfully");
                     }
