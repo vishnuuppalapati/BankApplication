@@ -51,6 +51,10 @@ namespace BankAppSample
             using(var logincontext=new BankContext())
             {
                 var userlogin = logincontext.UserRegistrations.Where(s => s.UserName == Username && s.Password == password).FirstOrDefault();
+                if(Username != userlogin.UserName || password!=userlogin.Password)
+                {
+                    Console.WriteLine("Please Enter Valid login details...\n");
+                }
             }
             return 0;
         }
